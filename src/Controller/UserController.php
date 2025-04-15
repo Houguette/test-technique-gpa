@@ -44,6 +44,7 @@ final class UserController extends AbstractController
         }
 
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
+
         $user->setCreationDate(New DateTime());
         $errors = $validator->validate($user);
 
@@ -79,10 +80,10 @@ final class UserController extends AbstractController
         {
             switch ($key)
             {
-                case 'first_name':
+                case 'firstName':
                     $user->setFirstName($value);
                     break;
-                case 'last_name':
+                case 'lastName':
                     $user->setLastName($value);
                     break;
                 case 'email':
@@ -104,13 +105,8 @@ final class UserController extends AbstractController
         return $this->json($userUpdated);
     }
 
-    public function delete(UserRepository $userRepository,Request $request,$id): JsonResponse
+    public function delete(UserRepository $userRepository,$id): JsonResponse
     {
-        if ('json' !== $request->getContentTypeFormat())
-        {
-            throw new BadRequestException('The format of the request is not supported , this api only supports json');
-        }
-
         try
         {
             $user = $userRepository->findOneById($id);
