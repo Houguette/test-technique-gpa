@@ -16,6 +16,7 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+<<<<<<< HEAD
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
@@ -40,4 +41,42 @@ class UserRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+=======
+    public function findAll(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u');
+        return $query->getResult();
+    }
+
+    public function findOneById(int $id): User
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u WHERE u.id = :id')->setParameter('id', $id);
+        return $query->getSingleResult();
+    }
+
+    public function create(User $user): User
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $user;
+    }
+
+    public function update(User $user): User
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $user;
+    }
+
+    public function delete(User $user): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+    }
+>>>>>>> Release/1.0.0
 }

@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('email')]
 class User
 {
     #[ORM\Id]
@@ -14,16 +17,16 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var string|null
-     */
-    #[ORM\Column(length: 255)]
-    private ?string $last_name = null;
-
     #[ORM\Column(length: 255)]
     private ?string $first_name = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $last_name = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -37,18 +40,6 @@ class User
         return $this->id;
     }
 
-    public function getLastName(): ?string
-    {
-        return $this->last_name;
-    }
-
-    public function setLastName(string $last_name): static
-    {
-        $this->last_name = $last_name;
-
-        return $this;
-    }
-
     public function getFirstName(): ?string
     {
         return $this->first_name;
@@ -57,6 +48,18 @@ class User
     public function setFirstName(string $first_name): static
     {
         $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name): static
+    {
+        $this->last_name = $last_name;
 
         return $this;
     }
