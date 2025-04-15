@@ -1,5 +1,21 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+#Route User
+getUserList:
+    path: /api/users/list
+    controller: App\Controller\UserController::list
+    methods: [GET]
+getUser:
+    path: /api/users/{id}
+    controller: App\Controller\UserController::read
+    methods: [GET]
+createUser:
+    path: /api/users
+    controller: App\Controller\UserController::create
+    methods: [POST]
+updateUser:
+    path: /api/users/{id}
+    controller: App\Controller\UserController::update
+    methods: [PUT]
+deleteUser:
+    path: /api/users/{id}
+    controller: App\Controller\UserController::delete
+    methods: [DELETE]
